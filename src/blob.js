@@ -14,8 +14,8 @@ function Blob(blobColor, lineColor) {
     this.centre = true; // if this.centre (true) then Ball 1 is the centre of spin
     this.clockwise = true; // direction of spin
 
-    this.x1 = height / 2;
-    this.y1 = width / 2;
+    this.x1 = random(width);
+    this.y1 = random(height);
     this.x2 = this.x1 + this.axisLen;
     this.y2 = this.y1;
 
