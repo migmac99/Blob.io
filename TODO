@@ -1,5 +1,6 @@
 CHECK	1. Set up P5.js (https://www.youtube.com/watch?v=8j0UDiN7my4)
-		2. Fazer o jogo blob  
+		2. Fazer o jogo blob
+			Colisões entre blobes (deixa o "e")
 		3. Implementar AI
 		4. Treinar
 
