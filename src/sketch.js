@@ -13,8 +13,6 @@ var blob;
 var enemy1;
 var enemy2;
 
-var distance = 10; // Distance between both balls
-var speed = 5; // Speed of rotation
 
 
 function setup() {
@@ -24,7 +22,15 @@ function setup() {
     // Spawning the blobs 
     blob1 = new Blob(ballColor, lineColor);
     enemy1 = new Blob(enemyBallColor, enemyLineColor);
-    enemy2 = new Blob(enemy2BallColor, enemy2LineColor);
+    //enemy2 = new Blob(enemy2BallColor, enemy2LineColor);
+
+
+
+    //////////////////////////////////////DEBUG MODE////////////////////////////////////////////////
+    // enemy1.degrees = 180;
+    // enemy1.clockwise = true;
+    //////////////////////////////////////DEBUG MODE////////////////////////////////////////////////
+
 }
 
 function draw() {
@@ -35,8 +41,21 @@ function draw() {
     enemy1.update();
     enemy1.show();
 
-    enemy2.update();
-    enemy2.show();
+    //enemy2.update();
+    //enemy2.show();
+
+
+    //////////////////////////////////////DEBUG MODE////////////////////////////////////////////////
+    // blob1.colided();
+    //
+    // blob1.x2 = 250;
+    // blob1.y2 = 155;
+    // enemy1.x2 = 373;
+    // enemy1.y2 = 122;
+    // enemy1.x1 = 300;
+    // enemy1.y1 = 122;
+    //////////////////////////////////////DEBUG MODE////////////////////////////////////////////////
+
 }
 
 function keyPressed() {

@@ -19,6 +19,10 @@ function Blob(blobColor, lineColor) {
     this.x2 = this.x1 + this.axisLen;
     this.y2 = this.y1;
 
+    this.hit = false; // if collision w another ball [hit = true]
+    this.flag = false;
+
+
     this.show = function() { // Function to display the blob
         // draw axis
         stroke(this.lineColor);
@@ -73,5 +77,29 @@ function Blob(blobColor, lineColor) {
         }
     }
 
-    this.colided = function() {}
+    // check if coliding with other blob
+    this.colided = function() {
+
+        if (this.centre) { //aqui em vez de ser enemy1. devia ser (bola enimiga mais proxima da moving ball deste blob)
+            this.hit = collideCircleCircle(this.x1, this.y1, this.size, enemy1.x1, enemy1.y1, enemy1.size);
+            this.hit_ = collideCircleCircle(this.x1, this.y1, this.size + 0.5, enemy1.x1, enemy1.y1, enemy1.size + 0.5);
+        }
+
+        if (this.centre == false) { //aqui em vez de ser enemy1. devia ser (bola enimiga mais proxima da moving ball deste blob)
+            this.hit = collideCircleCircle(this.x2, this.y2, this.size, enemy1.x1, enemy1.y1, enemy1.size);
+            this.hit_ = collideCircleCircle(this.x2, this.y2, this.size + 0.5, enemy1.x1, enemy1.y1, enemy1.size + 0.5);
+        }
+
+        if (this.hit) {
+            if (this.flag) {
+                this.clockwise = !this.clockwise;
+                this.flag = false;
+            }
+        }
+
+        if (this.hit_ == false) {
+            this.flag = true;
+        }
+    }
+
 }
