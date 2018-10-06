@@ -4,12 +4,12 @@ function Blob(blobColor, lineColor) {
     this.blobColor = blobColor; // blob's color
     this.lineColor = lineColor; // line color
 
-    this.size = 25; // Diameter of each ball
+    this.size = 24; // Diameter of each ball
     this.axisLen = 60; // Distance between balls
     this.speed = 2.5; // Rotation speed
 
 
-    this.degrees = 0;
+    this.degrees = 0; // initial angle
 
     this.centre = true; // if this.centre (true) then Ball 1 IS ROTATING
     this.clockwise = true; // direction of spin
@@ -25,9 +25,9 @@ function Blob(blobColor, lineColor) {
 
     this.show = function() { // Function to display the blob
         // draw axis
-        stroke(this.lineColor);
-        strokeWeight(5);
-        line(this.x1, this.y1, this.x2, this.y2);
+        // stroke(this.lineColor);
+        // strokeWeight(5);
+        // line(this.x1, this.y1, this.x2, this.y2);
 
         // draw balls
         noStroke();
@@ -50,8 +50,6 @@ function Blob(blobColor, lineColor) {
         }
 
         this.checkBorders();
-
-        // console.log('Centre [', this.centre, ']    Clockwise [', this.clockwise, ']');
     }
 
     this.switch = function() {
@@ -70,11 +68,26 @@ function Blob(blobColor, lineColor) {
         this.degrees += 180;
     }
 
-    this.getCentre = function() {
-        if (this.centre)
-            return ([this.x2, this.y2]);
-        else
-            return ([this.x1, this.y1]);
+    this.getPosition = function() {
+        /*
+        c - center coordinate
+        o - orbit coordinate
+        */
+        if (this.centre) {
+            return {
+                cx: this.x2,
+                cy: this.y2,
+                ox: this.x1,
+                oy: this.y1
+            };
+        } else {
+            return {
+                cx: this.x1,
+                cy: this.y1,
+                ox: this.x2,
+                oy: this.y2
+            };
+        }
     }
 
     // check if coliding with borders
@@ -85,30 +98,44 @@ function Blob(blobColor, lineColor) {
             this.y1 - radius <= 0 || this.y1 + radius >= height ||
             this.y2 - radius <= 0 || this.y2 + radius >= height) {
             this.bounce();
-            this.coliding = false;
-        } else {
-            this.coliding = true;
         }
     }
 
     // check if coliding with other blob
     this.colided = function(other) {
-        let hit;
-        oc = other.getCentre();
-        console.log(oc);
+        let ourPos = this.getPosition();
+        let otherPos = other.getPosition();
 
-        // hit = collideCircleCircle(this.x2, this.y2, this.size, other.xoc, other.yoc, other.size);
+        // test orbit vs orbit
+        // TODO: Fazer bounce só se estiver a bater com a "barriga"
+        if (collideCircleCircle(
+                ourPos.ox, ourPos.oy, this.size,
+                otherPos.ox, otherPos.oy, other.size)) {
+            console.log("Our Orbit vs Other Orbit");
+            this.bounce();
+            return;
+        }
 
-        // if (hit) {
-        //     this.bounce();
-        // }
-        // if (this.centre) {
-        //     hit = collideCircleCircle(this.x1, this.y1, this.size, other.x1, other.y1, other.size);
-        // } else {
-        //     hit = collideCircleCircle(this.x2, this.y2, this.size, other.x1, other.y1, other.size);
-        // }
-        // if (hit) {
-        //     this.bounce();
-        // }
+        // test our orbit vs other centre
+        if (collideCircleCircle(
+                ourPos.ox, ourPos.oy, this.size,
+                otherPos.cx, otherPos.cy, other.size)) {
+            console.log("Our Orbit vs Other Centre")
+            this.bounce();
+            return;
+        }
+
+        // test our centre vs other orbit
+        if (collideCircleCircle(
+                ourPos.cx, ourPos.cy, this.size,
+                otherPos.ox, otherPos.oy, other.size)) {
+
+            console.log("Our Centre vs Other Orbit");
+            if (this.clockwise == other.clockwise) {
+                this.switch();
+            } else {
+                this.changeCenter();
+            }
+        }
     }
 }

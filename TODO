@@ -2,7 +2,10 @@ CHECK	1. Set up P5.js (https://www.youtube.com/watch?v=8j0UDiN7my4)
 		2. Fazer o jogo blob
 			Colisões entre blobes (deixa o "e")
 			Glitch do blob ficar preso numa parede
-			
+			Refactor de coordenadas das bolas. usar arrays de centro e orbitante?
+			Podemos cagar na lib e implementar nos a funcao colide circle circle se so usarmos essa
+		
+		
 		3. Fazer Servidor/Client e multi instance;
 		4. Implementar AI
 		5. Treinar

@@ -40,24 +40,18 @@ function setup() {
 
 function draw() {
     background(color(backgroundColor));
-    blob1.update();
-    blob1.show();
 
+    blob1.update();
     enemy1.update();
+
+    blob1.show();
     enemy1.show();
 
-    //enemy2.update();
-    //enemy2.show();
-
-
-    //////////////////////////////////////DEBUG MODE////////////////////////////////////////////////
+    console.log("BLUE")
     blob1.colided(enemy1);
-    // enemy1.colided(blob1);
-    //
-    // blob1.x2 = 250;
-    // blob1.y2 = 155;
-    //
-    //////////////////////////////////////DEBUG MODE////////////////////////////////////////////////
+    console.log("RED")
+    enemy1.colided(blob1);
+    console.log(" ");
 
 }
 
