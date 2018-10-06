@@ -1,6 +1,9 @@
 CHECK	1. Set up P5.js (https://www.youtube.com/watch?v=8j0UDiN7my4)
 		2. Fazer o jogo blob
 			Colisões entre blobes (deixa o "e")
-		3. Implementar AI
-		4. Treinar
+			Glitch do blob ficar preso numa parede
+			
+		3. Fazer Servidor/Client e multi instance;
+		4. Implementar AI
+		5. Treinar
 

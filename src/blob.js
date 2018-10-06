@@ -11,7 +11,7 @@ function Blob(blobColor, lineColor) {
 
     this.degrees = 0;
 
-    this.centre = true; // if this.centre (true) then Ball 1 is the centre of spin
+    this.centre = true; // if this.centre (true) then Ball 1 IS ROTATING
     this.clockwise = true; // direction of spin
 
     this.x1 = random(width);
@@ -20,7 +20,7 @@ function Blob(blobColor, lineColor) {
     this.y2 = this.y1;
 
     this.hit = false; // if collision w another ball [hit = true]
-    this.flag = false;
+    //this.coliding = false;
 
 
     this.show = function() { // Function to display the blob
@@ -55,51 +55,60 @@ function Blob(blobColor, lineColor) {
     }
 
     this.switch = function() {
-        this.centre = !this.centre;
+        this.bounce();
+        this.changeCenter();
+    }
+
+    // change spin direction
+    this.bounce = function() {
         this.clockwise = !this.clockwise;
+    }
+
+    // change center
+    this.changeCenter = function() {
+        this.centre = !this.centre;
         this.degrees += 180;
+    }
+
+    this.getCentre = function() {
+        if (this.centre)
+            return ([this.x2, this.y2]);
+        else
+            return ([this.x1, this.y1]);
     }
 
     // check if coliding with borders
     this.checkBorders = function() {
         let radius = this.size / 2;
-        if (this.x1 - radius < 0 || this.x1 + radius > width) {
-            this.clockwise = !this.clockwise;
-        }
-        if (this.x2 - radius < 0 || this.x2 + radius > width) {
-            this.clockwise = !this.clockwise;
-        }
-        if (this.y1 - radius < 0 || this.y1 + radius > height) {
-            this.clockwise = !this.clockwise;
-        }
-        if (this.y2 - radius < 0 || this.y2 + radius > height) {
-            this.clockwise = !this.clockwise;
+        if (this.x1 - radius <= 0 || this.x1 + radius >= width ||
+            this.x2 - radius <= 0 || this.x2 + radius >= width ||
+            this.y1 - radius <= 0 || this.y1 + radius >= height ||
+            this.y2 - radius <= 0 || this.y2 + radius >= height) {
+            this.bounce();
+            this.coliding = false;
+        } else {
+            this.coliding = true;
         }
     }
 
     // check if coliding with other blob
-    this.colided = function() {
+    this.colided = function(other) {
+        let hit;
+        oc = other.getCentre();
+        console.log(oc);
 
-        if (this.centre) { //aqui em vez de ser enemy1. devia ser (bola enimiga mais proxima da moving ball deste blob)
-            this.hit = collideCircleCircle(this.x1, this.y1, this.size, enemy1.x1, enemy1.y1, enemy1.size);
-            this.hit_ = collideCircleCircle(this.x1, this.y1, this.size + 0.5, enemy1.x1, enemy1.y1, enemy1.size + 0.5);
-        }
+        // hit = collideCircleCircle(this.x2, this.y2, this.size, other.xoc, other.yoc, other.size);
 
-        if (this.centre == false) { //aqui em vez de ser enemy1. devia ser (bola enimiga mais proxima da moving ball deste blob)
-            this.hit = collideCircleCircle(this.x2, this.y2, this.size, enemy1.x1, enemy1.y1, enemy1.size);
-            this.hit_ = collideCircleCircle(this.x2, this.y2, this.size + 0.5, enemy1.x1, enemy1.y1, enemy1.size + 0.5);
-        }
-
-        if (this.hit) {
-            if (this.flag) {
-                this.clockwise = !this.clockwise;
-                this.flag = false;
-            }
-        }
-
-        if (this.hit_ == false) {
-            this.flag = true;
-        }
+        // if (hit) {
+        //     this.bounce();
+        // }
+        // if (this.centre) {
+        //     hit = collideCircleCircle(this.x1, this.y1, this.size, other.x1, other.y1, other.size);
+        // } else {
+        //     hit = collideCircleCircle(this.x2, this.y2, this.size, other.x1, other.y1, other.size);
+        // }
+        // if (hit) {
+        //     this.bounce();
+        // }
     }
-
 }
